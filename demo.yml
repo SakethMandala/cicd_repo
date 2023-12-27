@@ -7,25 +7,43 @@ pr:
 - '*'
 
 jobs:
-- job: BuildAndTest
-  displayName: 'Build and Test'
+- job: Build
+  displayName: 'Build'
   pool:
     vmImage: 'ubuntu-latest'
 
   steps:
   - checkout: self
 
-  - script: echo 'Building and Testing...'
-    displayName: 'Build and Test Step'
+  - script: 
+      echo 'Building...'
+      # Add your build commands here
+    displayName: 'Build Step'
 
-- job: DeployToProduction
-  displayName: 'Deploy to Production'
-  dependsOn: BuildAndTest
+- job: Test
+  displayName: 'Test'
+  dependsOn: Build
   pool:
     vmImage: 'ubuntu-latest'
 
   steps:
   - checkout: self
 
-  - script: echo 'Deploying to Production...'
-    displayName: 'Deploy to Production Step'
+  - script: 
+      echo 'Running Tests...'
+      # Add your test commands here
+    displayName: 'Test Step'
+
+- job: Deploy
+  displayName: 'Deploy'
+  dependsOn: Test
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - checkout: self
+
+  - script: 
+      echo 'Deploying...'
+      # Add your deployment commands here
+    displayName: 'Deploy Step'
