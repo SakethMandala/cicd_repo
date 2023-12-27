@@ -1,0 +1,49 @@
+# azure-pipelines.yml
+
+trigger:
+- main
+
+pr:
+- '*'
+
+jobs:
+- job: Build
+  displayName: 'Build'
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - checkout: self
+
+  - script: 
+      echo 'Building...'
+      # Add your build commands here
+    displayName: 'Build Step'
+
+- job: Test
+  displayName: 'Test'
+  dependsOn: Build
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - checkout: self
+
+  - script: 
+      echo 'Running Tests...'
+      # Add your test commands here
+    displayName: 'Test Step'
+
+- job: Deploy
+  displayName: 'Deploy'
+  dependsOn: Test
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - checkout: self
+
+  - script: 
+      echo 'Deploying...'
+      # Add your deployment commands here
+    displayName: 'Deploy Step'
